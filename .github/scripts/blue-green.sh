@@ -183,12 +183,3 @@ function sync_database {
 nohup sync_files &
 nohup sync_database &
 wait
-
-# Switch traffic between sites.
-# Ensure GREEN site is not in maintenance mode.
-terminus drush $GREEN_SITE vset --yes maintenance_mode 0;
-terminus drush $GREEN_SITE cc all;
-
-# Enable maintenance mode on BLUE to redirect traffic to GREEN.
-terminus drush $BLUE_SITE vset --yes maintenance_mode 1;
-terminus drush $BLUE_SITE cc all;
