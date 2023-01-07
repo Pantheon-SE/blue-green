@@ -105,7 +105,7 @@ runs:
     - id: configure-pantheon-variables
       name: Configure variables
       shell: bash
-      run: /.github/scripts/variables.sh
+      run: ./.github/scripts/variables.sh
       env:
         PANTHEON_BLUE_SITE_ENV: ${{ inputs.PANTHEON_BLUE_SITE_ENV }}
         PANTHEON_GREEN_SITE_ENV: ${{ inputs.PANTHEON_GREEN_SITE_ENV }}
