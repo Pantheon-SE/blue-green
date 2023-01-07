@@ -1,8 +1,6 @@
 #!/bin/bash -e
 
 # Required inputs
-# - BLUE_SITE_REPO
-# - GREEN_SITE_REPO
 # - BLUE_SITE_NAME
 # - GREEN_SITE_NAME
 # - BASE_BRANCH
@@ -19,8 +17,8 @@ git config --global user.name "$GIT_NAME"
 git config pull.rebase false
 
 # Fix github actions variables missing periods.
-BLUE_REPO=$(echo "$BLUE_SITE_REPO" | tr " " ".")
-GREEN_REPO=$(echo "$GREEN_SITE_REPO" | tr " " ".")
+BLUE_REPO=$(echo "ssh://codeserver.dev.$BLUE_SITE_NAME@codeserver.dev.$BLUE_SITE_NAME.drush.in:2222/~/repository.git")
+GREEN_REPO=$(echo "ssh://codeserver.dev.$GREEN_SITE_NAME@codeserver.dev.$GREEN_SITE_NAME.drush.in:2222/~/repository.git")
 
 # Setup repo, add remote branch connection, sync code.
 git clone $GREEN_REPO $GREEN_SITE_NAME && cd $GREEN_SITE_NAME

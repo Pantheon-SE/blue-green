@@ -15,6 +15,14 @@
 # Sync files and database between BLUE and GREEN sites.
 mkdir $MOUNT_PATH
 
+
+# Fix vars
+IDENTITY_FILE=$(echo ~/.ssh/id_rsa)
+BLUE_SITE_SFTP_HOST=$(echo "$BLUE_SITE_SFTP_HOST" | tr " " ".")
+BLUE_SITE_SFTP_USER=$(echo "$BLUE_SITE_SFTP_USER" | tr " " ".")
+GREEN_SITE_SFTP_HOST=$(echo "$GREEN_SITE_SFTP_HOST" | tr " " ".")
+GREEN_SITE_SFTP_USER=$(echo "$GREEN_SITE_SFTP_USER" | tr " " ".")
+
 # Create rclone conf file.
 mkdir -p ~/.config/rclone
 cat <<EOF > ~/.config/rclone/rclone.conf
