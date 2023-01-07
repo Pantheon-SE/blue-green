@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Prepare some variables.
 TMP_DIR_NAME=$(echo $RANDOM | md5sum | head -c 8)
