@@ -24,8 +24,8 @@ jobs:
         env:
           BLUE_SITE_REPO: ${{ steps.configure-pantheon.outputs.BLUE_SITE_REPO }}
           GREEN_SITE_REPO: ${{ steps.configure-pantheon.outputs.GREEN_SITE_REPO }}
-          BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
-          GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
+          BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_NAME }}
+          GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_NAME }}
           BASE_BRANCH: ${{ steps.configure-pantheon.outputs.BASE_BRANCH }}
 
   sync_files:
@@ -48,8 +48,8 @@ jobs:
         env:
           MOUNT_PATH: ${{ steps.configure-pantheon.outputs.MOUNT_PATH }}
           IDENTITY_FILE: ${{ steps.configure-pantheon.outputs.IDENTITY_FILE }}
-          BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
-          GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
+          BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_NAME }}
+          GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_NAME }}
           BLUE_SITE_SFTP_HOST: ${{ steps.configure-pantheon.outputs.BLUE_SITE_SFTP_HOST }}
           BLUE_SITE_SFTP_USER: ${{ steps.configure-pantheon.outputs.BLUE_SITE_SFTP_USER }}
           BLUE_SITE_SFTP_PORT: ${{ steps.configure-pantheon.outputs.BLUE_SITE_SFTP_PORT }}
