@@ -85,11 +85,10 @@ runs:
       name: Prepare SSH config
       shell: bash
       run: |
-        cat <<EOF > ssh_config.txt
-        Host *.drush.in
-          StrictHostKeyChecking no
-        EOF
-        echo "SSH_CONFIG=$(cat ssh_config.txt)" >> $GITHUB_OUTPUT
+        echo 'SSH_CONFIG<<EOF' >> $GITHUB_OUTPUT
+        echo "Host *.drush.in" >> $GITHUB_OUTPUT
+        echo "  StrictHostKeyChecking no" >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
 
     - name: Configure SSH
       uses: shimataro/ssh-key-action@v2
