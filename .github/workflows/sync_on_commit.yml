@@ -75,8 +75,10 @@ jobs:
         shell: bash
         run: ./.github/scripts/sync_database.sh
         env:
-          BLUE_SITE: ${{ steps.configure-pantheon.outputs.BLUE_SITE }}
-          GREEN_SITE: ${{ steps.configure-pantheon.outputs.GREEN_SITE }}
+          BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_NAME }}
+          BLUE_SITE_ENV: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ENV }}
+          GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_NAME }}
+          GREEN_SITE_ENV: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ENV }}
 
   deploy_blue_green:
     runs-on: ubuntu-latest
