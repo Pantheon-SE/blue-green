@@ -124,7 +124,7 @@ function sync_files {
 
     # Create rclone conf file.
     cat <<EOF > ~/.config/rclone/rclone.conf
-    [$BLUE_SITE]
+    [$BLUE_SITE_NAME]
     type = sftp
     host = $BLUE_SITE_SFTP_HOST
     user = $BLUE_SITE_SFTP_USER
@@ -133,11 +133,11 @@ function sync_files {
     key_file = $IDENTITY_FILE
     use_insecure_cipher = false
 
-    [$GREEN_SITE]
-    host = $RSYNC_2_HOST
-    user = $RSYNC_2_USER
-    port = $RSYNC_2_PORT
-    path = $RSYNC_2_DIR
+    [$GREEN_SITE_NAME]
+    host = $GREEN_SITE_SFTP_HOST
+    user = $GREEN_SITE_SFTP_USER
+    port = $GREEN_SITE_SFTP_PORT
+    path = files
     key_file = $IDENTITY_FILE
     use_insecure_cipher = false
 EOF
