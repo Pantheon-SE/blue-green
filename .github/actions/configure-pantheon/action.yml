@@ -85,8 +85,10 @@ runs:
       name: Prepare SSH config
       shell: bash
       run: |
-        cat "Host *.drush.in" > ssh_config.txt
-        cat "  StrictHostKeyChecking no" >> ssh_config.txt
+        cat <<EOF > ssh_config.txt
+        Host *.drush.in
+          StrictHostKeyChecking no
+        EOF
         echo "SSH_CONFIG=$(cat ssh_config.txt)" >> $GITHUB_OUTPUT
 
     - name: Configure SSH
