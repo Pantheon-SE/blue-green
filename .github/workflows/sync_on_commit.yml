@@ -6,8 +6,6 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_CONTEXT: ${{ toJson(github) }}
     steps:
       - uses: actions/checkout@v3
 

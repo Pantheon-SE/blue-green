@@ -119,8 +119,8 @@ runs:
       run: |
         ssh-keyscan -t rsa -p 2222 "appserver.dev.${BLUE_SITE_ID}.drush.in" >> ~/.ssh/known_hosts
         ssh-keyscan -t rsa -p 2222 "codeserver.dev.${BLUE_SITE_ID}.drush.in" >> ~/.ssh/known_hosts
-        ssh-keyscan -t rsa -p 2222 "appserver.dev.${GREEN_SITE_NAME}.drush.in" >> ~/.ssh/known_hosts
-        ssh-keyscan -t rsa -p 2222 "codeserver.dev.${GREEN_SITE_NAME}.drush.in" >> ~/.ssh/known_hosts
+        ssh-keyscan -t rsa -p 2222 "appserver.dev.${GREEN_SITE_ID}.drush.in" >> ~/.ssh/known_hosts
+        ssh-keyscan -t rsa -p 2222 "codeserver.dev.${GREEN_SITE_ID}.drush.in" >> ~/.ssh/known_hosts
       env:
         BLUE_SITE_ID: ${{ steps.configure-pantheon-variables.outputs.BLUE_SITE_NAME }}
         GREEN_SITE_ID: ${{ steps.configure-pantheon-variables.outputs.GREEN_SITE_NAME }}
