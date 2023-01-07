@@ -38,7 +38,7 @@ path = files
 key_file = $IDENTITY_FILE
 use_insecure_cipher = false
 
-[$BLUE_SITE_NAME]
+[$GREEN_SITE_NAME]
 host = $GREEN_SITE_SFTP_HOST
 user = $GREEN_SITE_SFTP_USER
 port = $GREEN_SITE_SFTP_PORT
