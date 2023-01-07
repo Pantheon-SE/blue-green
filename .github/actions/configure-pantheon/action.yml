@@ -83,6 +83,7 @@ runs:
 
     - id: prepare-ssh-config
       name: Prepare SSH config
+      shell: bash
       run: |
         echo "Host *.drush.in" > ssh_config.txt
         echo "  StrictHostKeyChecking no" >> ssh_config.txt
@@ -102,6 +103,7 @@ runs:
 
     - id: configure-pantheon-variables
       name: Configure variables
+      shell: bash
       run: /.github/scripts/variables.sh
       env:
         PANTHEON_BLUE_SITE_ENV: ${{ inputs.PANTHEON_BLUE_SITE_ENV }}
@@ -112,6 +114,7 @@ runs:
       shell: bash
 
     - name: Add Pantheon SSH known hosts
+      shell: bash
       run: |
         ssh-keyscan -t rsa -p 2222 "appserver.dev.${BLUE_SITE_ID}.drush.in" >> ~/.ssh/known_hosts
         ssh-keyscan -t rsa -p 2222 "codeserver.dev.${BLUE_SITE_ID}.drush.in" >> ~/.ssh/known_hosts
