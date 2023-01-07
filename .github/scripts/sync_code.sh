@@ -18,9 +18,13 @@ git config --global user.email "$GIT_EMAIL"
 git config --global user.name "$GIT_NAME"
 git config pull.rebase false
 
+# Fix github actions variables missing periods.
+BLUE_REPO=$(echo "$BLUE_SITE_REPO" | tr " " ".")
+GREEN_REPO=$(echo "$GREEN_SITE_REPO" | tr " " ".")
+
 # Setup repo, add remote branch connection, sync code.
-git clone $GREEN_SITE_REPO $GREEN_SITE_NAME && cd $GREEN_SITE_NAME
-git remote add $BLUE_SITE_NAME $BLUE_SITE_REPO
+git clone $GREEN_REPO $GREEN_SITE_NAME && cd $GREEN_SITE_NAME
+git remote add $BLUE_SITE_NAME $BLUE_REPO
 
 # Check if remote branch exists
 _check_branch=$(git ls-remote --heads $BLUE_SITE_NAME $BASE_BRANCH)

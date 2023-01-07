@@ -16,6 +16,7 @@
 mkdir $MOUNT_PATH
 
 # Create rclone conf file.
+mkdir -p ~/.config/rclone
 cat <<EOF > ~/.config/rclone/rclone.conf
 [$BLUE_SITE_NAME]
 type = sftp
