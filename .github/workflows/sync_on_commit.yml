@@ -13,3 +13,8 @@ jobs:
 
       - name: Configure Pantheon
         uses: ./.github/actions/configure-pantheon
+        with:
+          PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+          PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
+          PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
+          PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
