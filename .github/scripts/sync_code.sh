@@ -21,6 +21,8 @@ BLUE_REPO=$(echo "ssh://codeserver.dev.$BLUE_SITE_NAME@codeserver.dev.$BLUE_SITE
 GREEN_REPO=$(echo "ssh://codeserver.dev.$GREEN_SITE_NAME@codeserver.dev.$GREEN_SITE_NAME.drush.in:2222/~/repository.git")
 
 # Setup repo, add remote branch connection, sync code.
+echo "git clone $GREEN_REPO $GREEN_SITE_NAME && cd $GREEN_SITE_NAME"
+echo "git remote add $BLUE_SITE_NAME $BLUE_REPO"
 git clone $GREEN_REPO $GREEN_SITE_NAME && cd $GREEN_SITE_NAME
 git remote add $BLUE_SITE_NAME $BLUE_REPO
 

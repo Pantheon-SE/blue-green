@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+# Sync files and database between BLUE and GREEN sites.
 # Required variables
 # - MOUNT_PATH
 # - IDENTITY_FILE
@@ -12,9 +13,11 @@
 # - GREEN_SITE_SFTP_USER
 # - GREEN_SITE_SFTP_PORT
 
-# Sync files and database between BLUE and GREEN sites.
+# Prepare variables
+TMP_DIR_NAME=$(echo $RANDOM | md5sum | head -c 8)
+TMP_DIR_PATH="/tmp/$TMP_DIR_NAME"
+MOUNT_PATH="/tmp/files-$TMP_DIR_NAME"
 mkdir $MOUNT_PATH
-
 
 # Fix vars
 IDENTITY_FILE=$(echo ~/.ssh/id_rsa)
@@ -43,6 +46,9 @@ path = files
 key_file = $IDENTITY_FILE
 use_insecure_cipher = false
 EOF
+
+# Debug
+cat ~/.config/rclone/rclone.conf
 
 # Mount local directory for SOURCE remote
 sshfs \

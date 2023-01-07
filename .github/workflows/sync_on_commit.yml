@@ -46,8 +46,6 @@ jobs:
         shell: bash
         run: ./.github/scripts/sync_files.sh
         env:
-          MOUNT_PATH: ${{ steps.configure-pantheon.outputs.MOUNT_PATH }}
-          IDENTITY_FILE: ${{ steps.configure-pantheon.outputs.IDENTITY_FILE }}
           BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_NAME }}
           GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_NAME }}
           BLUE_SITE_SFTP_HOST: ${{ steps.configure-pantheon.outputs.BLUE_SITE_SFTP_HOST }}
