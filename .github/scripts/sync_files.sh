@@ -15,10 +15,8 @@
 
 # Prepare variables
 TMP_DIR_NAME=$(echo $RANDOM | md5sum | head -c 8)
-TMP_DIR_PATH="/tmp/$TMP_DIR_NAME"
-MOUNT_PATH="/tmp/files-$TMP_DIR_NAME"
+MOUNT_PATH="/$RUNNER_TEMP/files-$TMP_DIR_NAME"
 mkdir $MOUNT_PATH
-echo "mount path: $MOUNT_PATH"
 
 # Fix vars
 IDENTITY_FILE=$(echo ~/.ssh/id_rsa)
