@@ -18,6 +18,7 @@ TMP_DIR_NAME=$(echo $RANDOM | md5sum | head -c 8)
 TMP_DIR_PATH="/tmp/$TMP_DIR_NAME"
 MOUNT_PATH="/tmp/files-$TMP_DIR_NAME"
 mkdir $MOUNT_PATH
+echo "mount path: $MOUNT_PATH"
 
 # Fix vars
 IDENTITY_FILE=$(echo ~/.ssh/id_rsa)
@@ -56,15 +57,10 @@ sshfs \
 -o IdentityFile=$IDENTITY_FILE \
 -o StrictHostKeyChecking=no \
 -o ServerAliveInterval=15 \
-$BLUE_SITE_NAME \ # Source remote config in rclone
-$MOUNT_PATH  # Local directory path
+$BLUE_SITE_NAME $MOUNT_PATH
 
 # Rclone
-rclone sync \
---progress \ 
---transfers 20 \
-$MOUNT_PATH \    # Local mounted directory for Source
-$GREEN_SITE_NAME # Destination remote
+rclone sync --progress --transfers 20 $MOUNT_PATH $GREEN_SITE_NAME
 
 # Unmount path
 fusermount -u $MOUNT_PATH
