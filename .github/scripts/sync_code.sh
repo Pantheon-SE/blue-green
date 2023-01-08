@@ -32,6 +32,7 @@ git config pull.rebase false
 # Check if remote branch exists
 _check_branch=$(git ls-remote --heads $BLUE_SITE_NAME $BASE_BRANCH)
 [[ -n ${_check_branch} ]] && git pull $BLUE_SITE_NAME $BASE_BRANCH --rebase
-# Sync branch
-git pull origin $BASE_BRANCH -X theirs --rebase
+
+# Sync branch back to green
+git pull origin $BASE_BRANCH -X mine --rebase
 git push -u origin HEAD:refs/heads/$BASE_BRANCH
