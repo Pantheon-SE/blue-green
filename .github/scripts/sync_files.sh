@@ -55,6 +55,7 @@ sshfs \
 -o IdentityFile=$IDENTITY_FILE \
 -o StrictHostKeyChecking=no \
 -o ServerAliveInterval=15 \
+-vvv \
 $BLUE_SITE_NAME $MOUNT_PATH
 
 # Rclone
