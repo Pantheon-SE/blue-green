@@ -51,40 +51,16 @@ EOF
 # Allow non-root users to mount
 echo 'user_allow_other' | sudo tee -a /etc/fuse.conf
 
-# debug fuse
-cat /etc/fuse.conf
-
-
 # Mount local directory for SOURCE remote
-if [ -d $MOUNT_PATH ]; then
-    # Directory exists
-    echo "sudo sshfs -o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT -o IdentityFile=$IDENTITY_FILE -o StrictHostKeyChecking=no -o ServerAliveInterval=15 -C -vvv $BLUE_SITE_NAME $MOUNT_PATH"
-
-    sudo sshfs \
-    -o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
-    -o IdentityFile=$IDENTITY_FILE \
-    -o StrictHostKeyChecking=no \
-    -o ServerAliveInterval=15 \
-    -C \
-    $BLUE_SITE_SFTP_PATH $MOUNT_PATH
-else
-  # Directory does not exist
-  echo "Mount directory does not exist"
-  exit 1
-fi
+sudo sshfs \
+-o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
+-o IdentityFile=$IDENTITY_FILE \
+-o StrictHostKeyChecking=no \
+-o ServerAliveInterval=15 \
+-C \
+$BLUE_SITE_SFTP_PATH $MOUNT_PATH
 
 # Rclone
 rclone sync --progress --transfers 20 $MOUNT_PATH $GREEN_SITE_NAME
 
-# Unmount path
-fusermount -u $MOUNT_PATH
-# Check if the unmount command failed
-if [ $? -ne 0 ]; then
-    sudo umount -lf $MOUNT_PATH
-    # Check if sudo unmount failed
-    if [ $? -ne 0 ]; then
-        echo "umount also failed."
-    else
-        echo "umount succeeded."
-    fi
-fi
+# No need to unmount, container will be reaped.
