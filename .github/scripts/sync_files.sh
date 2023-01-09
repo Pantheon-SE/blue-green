@@ -15,7 +15,7 @@
 
 # Prepare variables
 TMP_DIR_NAME=$(echo $RANDOM | md5sum | head -c 8)
-MOUNT_PATH="/$RUNNER_TEMP/files-$TMP_DIR_NAME"
+MOUNT_PATH="$RUNNER_TEMP/files-$TMP_DIR_NAME"
 mkdir $MOUNT_PATH
 
 # Fix vars
@@ -50,17 +50,13 @@ EOF
 cat ~/.config/rclone/rclone.conf
 
 # Mount local directory for SOURCE remote
-# sshfs \
-# -o reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
-# -o IdentityFile=$IDENTITY_FILE \
-# -o StrictHostKeyChecking=no \
-# -o ServerAliveInterval=15 \
-# -vvv \
-# $BLUE_SITE_NAME $MOUNT_PATH
-
-echo "mount path: $MOUNT_PATH"
-echo "mound cmdn: rclone mount $BLUE_SITE_NAME $MOUNT_PATH -vvv --vfs-cache-mode=minimal"
-rclone mount $BLUE_SITE_NAME $MOUNT_PATH -vvv --vfs-cache-mode=minimal
+sshfs \
+-o reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
+-o IdentityFile=$IDENTITY_FILE \
+-o StrictHostKeyChecking=no \
+-o ServerAliveInterval=15 \
+-vvv \
+$BLUE_SITE_NAME $MOUNT_PATH
 
 # Rclone
 rclone sync --progress --transfers 20 $MOUNT_PATH $GREEN_SITE_NAME
