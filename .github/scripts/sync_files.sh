@@ -24,6 +24,8 @@ BLUE_SITE_SFTP_HOST=$(echo "$BLUE_SITE_SFTP_HOST" | tr " " ".")
 BLUE_SITE_SFTP_USER=$(echo "$BLUE_SITE_SFTP_USER" | tr " " ".")
 GREEN_SITE_SFTP_HOST=$(echo "$GREEN_SITE_SFTP_HOST" | tr " " ".")
 GREEN_SITE_SFTP_USER=$(echo "$GREEN_SITE_SFTP_USER" | tr " " ".")
+BLUE_SITE_SFTP_PATH=$(echo "$BLUE_SITE_SFTP_USER@$BLUE_SITE_SFTP_HOST:files/")
+GREEN_SITE_SFTP_PATH=$(echo "$GREEN_SITE_SFTP_USER@$GREEN_SITE_SFTP_HOST:files/")
 
 # Create rclone conf file.
 mkdir -p ~/.config/rclone
@@ -49,22 +51,27 @@ EOF
 # Allow non-root users to mount
 echo 'user_allow_other' | sudo tee -a /etc/fuse.conf
 
-# Kill any existing SSHFS processes
-sudo killall sshfs
-# Debug finding other processes
-ps -ef | grep sshfs | grep -v grep
-# Unmount existing mount path
-sudo umount -l $MOUNT_PATH
+# debug fuse
+cat /etc/fuse.conf
+
 
 # Mount local directory for SOURCE remote
-sudo sshfs \
--o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
--o IdentityFile=$IDENTITY_FILE \
--o StrictHostKeyChecking=no \
--o ServerAliveInterval=15 \
--C \
--vvv \
-$BLUE_SITE_NAME $MOUNT_PATH
+if [ -d $MOUNT_PATH ]; then
+    # Directory exists
+    echo "sudo sshfs -o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT -o IdentityFile=$IDENTITY_FILE -o StrictHostKeyChecking=no -o ServerAliveInterval=15 -C -vvv $BLUE_SITE_NAME $MOUNT_PATH"
+
+    sudo sshfs \
+    -o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
+    -o IdentityFile=$IDENTITY_FILE \
+    -o StrictHostKeyChecking=no \
+    -o ServerAliveInterval=15 \
+    -C \
+    $BLUE_SITE_SFTP_PATH $MOUNT_PATH
+else
+  # Directory does not exist
+  echo "Mount directory does not exist"
+  exit 1
+fi
 
 # Rclone
 rclone sync --progress --transfers 20 $MOUNT_PATH $GREEN_SITE_NAME
