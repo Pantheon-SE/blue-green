@@ -16,7 +16,7 @@
 # Prepare variables
 TMP_DIR_NAME=$(echo $RANDOM | md5sum | head -c 8)
 MOUNT_PATH="$RUNNER_TEMP/files-$TMP_DIR_NAME"
-mkdir $MOUNT_PATH
+mkdir -p $MOUNT_PATH
 
 # Fix vars
 IDENTITY_FILE=$(echo ~/.ssh/id_rsa)
@@ -48,6 +48,13 @@ EOF
 
 # Allow non-root users to mount
 echo 'user_allow_other' | sudo tee -a /etc/fuse.conf
+
+# Kill any existing SSHFS processes
+sudo killall sshfs
+# Debug finding other processes
+ps -ef | grep sshfs | grep -v grep
+# Unmount existing mount path
+sudo umount -l $MOUNT_PATH
 
 # Mount local directory for SOURCE remote
 sudo sshfs \

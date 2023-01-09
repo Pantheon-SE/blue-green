@@ -98,7 +98,8 @@ runs:
         known_hosts: " "
 
     - name: Setup Terminus
-      uses: pantheon-systems/terminus-github-actions@1.0.0
+      run: ./.github/scripts/setup-terminus.sh
+      shell: bash
       with:
         pantheon-machine-token: ${{ inputs.PANTHEON_MACHINE_TOKEN }}
 
