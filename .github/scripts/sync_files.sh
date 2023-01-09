@@ -50,13 +50,17 @@ EOF
 cat ~/.config/rclone/rclone.conf
 
 # Mount local directory for SOURCE remote
-sshfs \
--o reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
--o IdentityFile=$IDENTITY_FILE \
--o StrictHostKeyChecking=no \
--o ServerAliveInterval=15 \
--vvv \
-$BLUE_SITE_NAME $MOUNT_PATH
+# sshfs \
+# -o reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
+# -o IdentityFile=$IDENTITY_FILE \
+# -o StrictHostKeyChecking=no \
+# -o ServerAliveInterval=15 \
+# -vvv \
+# $BLUE_SITE_NAME $MOUNT_PATH
+
+echo "mount path: $MOUNT_PATH"
+echo "mound cmdn: rclone mount $BLUE_SITE_NAME $MOUNT_PATH -vvv --vfs-cache-mode=minimal"
+rclone mount $BLUE_SITE_NAME $MOUNT_PATH -vvv --vfs-cache-mode=minimal
 
 # Rclone
 rclone sync --progress --transfers 20 $MOUNT_PATH $GREEN_SITE_NAME
