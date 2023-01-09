@@ -101,7 +101,7 @@ runs:
       run: ./.github/scripts/setup-terminus.sh
       shell: bash
       env:
-        pantheon-machine-token: ${{ inputs.PANTHEON_MACHINE_TOKEN }}
+        PANTHEON_MACHINE_TOKEN: ${{ inputs.PANTHEON_MACHINE_TOKEN }}
 
     - id: configure-pantheon-variables
       name: Configure variables
