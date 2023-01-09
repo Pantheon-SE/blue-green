@@ -46,15 +46,16 @@ key_file = $IDENTITY_FILE
 use_insecure_cipher = false
 EOF
 
-# Debug
-cat ~/.config/rclone/rclone.conf
+# Allow non-root users to mount
+echo 'user_allow_other' | sudo tee -a /etc/fuse.conf
 
 # Mount local directory for SOURCE remote
-sshfs \
--o reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
+sudo sshfs \
+-o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
 -o IdentityFile=$IDENTITY_FILE \
 -o StrictHostKeyChecking=no \
 -o ServerAliveInterval=15 \
+-C \
 -vvv \
 $BLUE_SITE_NAME $MOUNT_PATH
 
