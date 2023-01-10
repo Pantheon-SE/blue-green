@@ -7,11 +7,17 @@ inputs:
   PANTHEON_PRIVATE_SSH_KEY:
     description: "The private SSH key (in PEM format) associated with the Pantheon account."
     require: true
+  PANTHEON_BLUE_SITE_ID:
+    description: "The site UUID of the Blue site on Pantheon."
+    require: true
   PANTHEON_BLUE_SITE_ENV:
-    description: "The site UUID and ENV of the Blue site on Pantheon."
+    description: "The source environment of the Blue site on Pantheon."
+    require: true
+  PANTHEON_GREEN_SITE_ID:
+    description: "The site UUID the Green site on Pantheon."
     require: true
   PANTHEON_GREEN_SITE_ENV:
-    description: "The site UUID and ENV of the Green site on Pantheon."
+    description: "The target environment of the Green site on Pantheon."
     require: true
 
 outputs:
@@ -39,6 +45,9 @@ outputs:
   BLUE_SITE_ENV:
     description: "Blue Site source environment"
     value: ${{ steps.configure-pantheon-variables.outputs.BLUE_SITE_ENV }}
+  BLUE_SITE_ID:
+    description: "Blue Site UUID"
+    value: ${{ steps.configure-pantheon-variables.outputs.BLUE_SITE_ID }}
   BLUE_SITE_REPO:
     description: "Blue Site Git repository url"
     value: ${{ steps.configure-pantheon-variables.outputs.BLUE_SITE_REPO }}
@@ -60,6 +69,9 @@ outputs:
   GREEN_SITE_ENV:
     description: "Green Site destination environment"
     value: ${{ steps.configure-pantheon-variables.outputs.GREEN_SITE_ENV }}
+  GREEN_SITE_ID:
+    description: "Green Site UUID"
+    value: ${{ steps.configure-pantheon-variables.outputs.GREEN_SITE_ID }}
   GREEN_SITE_REPO:
     description: "Green Site Git repository url"
     value: ${{ steps.configure-pantheon-variables.outputs.GREEN_SITE_REPO }}

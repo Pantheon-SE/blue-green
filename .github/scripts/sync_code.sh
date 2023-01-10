@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
 # Required inputs
-# - BLUE_SITE_NAME
-# - GREEN_SITE_NAME
+# - BLUE_SITE_ID
+# - GREEN_SITE_ID
 # - BASE_BRANCH
 
 # Prepare git credentials
@@ -12,17 +12,17 @@ GIT_EMAIL=$(terminus auth:whoami --field email)
 GIT_NAME="$FNAME $LNAME"
 
 # Fix github actions variables missing periods.
-BLUE_REPO=$(echo "ssh://codeserver.dev.$BLUE_SITE_NAME@codeserver.dev.$BLUE_SITE_NAME.drush.in:2222/~/repository.git")
-GREEN_REPO=$(echo "ssh://codeserver.dev.$GREEN_SITE_NAME@codeserver.dev.$GREEN_SITE_NAME.drush.in:2222/~/repository.git")
+BLUE_REPO=$(echo "ssh://codeserver.dev.$BLUE_SITE_ID@codeserver.dev.$BLUE_SITE_ID.drush.in:2222/~/repository.git")
+GREEN_REPO=$(echo "ssh://codeserver.dev.$GREEN_SITE_ID@codeserver.dev.$GREEN_SITE_ID.drush.in:2222/~/repository.git")
 
 # Make sure env are in git mode
-terminus connection:set $BLUE_SITE_NAME.dev git
-terminus connection:set $GREEN_SITE_NAME.dev git
+terminus connection:set $BLUE_SITE_ID.dev git
+terminus connection:set $GREEN_SITE_ID.dev git
 
 # Setup repo, add remote branch connection, sync code.
-git clone $GREEN_REPO $GREEN_SITE_NAME -b $BASE_BRANCH
-cd $GREEN_SITE_NAME
-git remote add $BLUE_SITE_NAME $BLUE_REPO
+git clone $GREEN_REPO $GREEN_SITE_ID -b $BASE_BRANCH
+cd $GREEN_SITE_ID
+git remote add $BLUE_SITE_ID $BLUE_REPO
 
 # Configure git defaults
 git config --global user.email "$GIT_EMAIL"
@@ -30,8 +30,8 @@ git config --global user.name "$GIT_NAME"
 git config pull.rebase false
 
 # Check if remote branch exists
-_check_branch=$(git ls-remote --heads $BLUE_SITE_NAME $BASE_BRANCH)
-[[ -n ${_check_branch} ]] && git pull $BLUE_SITE_NAME $BASE_BRANCH --rebase
+_check_branch=$(git ls-remote --heads $BLUE_SITE_ID $BASE_BRANCH)
+[[ -n ${_check_branch} ]] && git pull $BLUE_SITE_ID $BASE_BRANCH --rebase
 
 # Sync branch back to green
 git pull origin $BASE_BRANCH -X mine --rebase

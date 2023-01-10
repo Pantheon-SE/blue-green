@@ -4,11 +4,11 @@
 # Required variables
 # - MOUNT_PATH
 # - IDENTITY_FILE
-# - BLUE_SITE_NAME
+# - BLUE_SITE_ID
 # - BLUE_SITE_SFTP_HOST
 # - BLUE_SITE_SFTP_USER
 # - BLUE_SITE_SFTP_PORT
-# - GREEN_SITE_NAME
+# - GREEN_SITE_ID
 # - GREEN_SITE_SFTP_HOST
 # - GREEN_SITE_SFTP_USER
 # - GREEN_SITE_SFTP_PORT
@@ -30,7 +30,7 @@ GREEN_SITE_SFTP_PATH=$(echo "$GREEN_SITE_SFTP_USER@$GREEN_SITE_SFTP_HOST:files/"
 # Create rclone conf file.
 mkdir -p ~/.config/rclone
 cat <<EOF > ~/.config/rclone/rclone.conf
-[$BLUE_SITE_NAME]
+[$BLUE_SITE_ID]
 type = sftp
 host = $BLUE_SITE_SFTP_HOST
 user = $BLUE_SITE_SFTP_USER
@@ -39,7 +39,7 @@ path = files
 key_file = $IDENTITY_FILE
 use_insecure_cipher = false
 
-[$GREEN_SITE_NAME]
+[$GREEN_SITE_ID]
 host = $GREEN_SITE_SFTP_HOST
 user = $GREEN_SITE_SFTP_USER
 port = $GREEN_SITE_SFTP_PORT
@@ -61,6 +61,6 @@ sudo sshfs \
 $BLUE_SITE_SFTP_PATH $MOUNT_PATH
 
 # Rclone
-rclone sync --progress --transfers 20 $MOUNT_PATH $GREEN_SITE_NAME
+rclone sync --progress --transfers 20 $MOUNT_PATH $GREEN_SITE_ID
 
 # No need to unmount, container will be reaped.

@@ -15,7 +15,9 @@ jobs:
         with:
           PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
           PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
+          PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
           PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
+          PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
           PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
 
       - name: Sync code from Blue to Green
@@ -24,8 +26,8 @@ jobs:
         env:
           BLUE_SITE_REPO: ${{ steps.configure-pantheon.outputs.BLUE_SITE_REPO }}
           GREEN_SITE_REPO: ${{ steps.configure-pantheon.outputs.GREEN_SITE_REPO }}
-          BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_NAME }}
-          GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_NAME }}
+          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
+          GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
           BASE_BRANCH: ${{ steps.configure-pantheon.outputs.BASE_BRANCH }}
 
   sync_files:
@@ -39,18 +41,20 @@ jobs:
         with:
           PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
           PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
+          PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
           PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
+          PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
           PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
 
       - name: Sync files from Blue to Green
         shell: bash
         run: ./.github/scripts/sync_files.sh
         env:
-          BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_NAME }}
-          GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_NAME }}
+          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
           BLUE_SITE_SFTP_HOST: ${{ steps.configure-pantheon.outputs.BLUE_SITE_SFTP_HOST }}
           BLUE_SITE_SFTP_USER: ${{ steps.configure-pantheon.outputs.BLUE_SITE_SFTP_USER }}
           BLUE_SITE_SFTP_PORT: ${{ steps.configure-pantheon.outputs.BLUE_SITE_SFTP_PORT }}
+          GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
           GREEN_SITE_SFTP_HOST: ${{ steps.configure-pantheon.outputs.GREEN_SITE_SFTP_HOST }}
           GREEN_SITE_SFTP_USER: ${{ steps.configure-pantheon.outputs.GREEN_SITE_SFTP_USER }}
           GREEN_SITE_SFTP_PORT: ${{ steps.configure-pantheon.outputs.GREEN_SITE_SFTP_PORT }}
@@ -66,16 +70,18 @@ jobs:
         with:
           PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
           PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
+          PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
           PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
+          PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
           PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
 
       - name: Sync database from Blue to Green
         shell: bash
         run: ./.github/scripts/sync_database.sh
         env:
-          BLUE_SITE_NAME: ${{ steps.configure-pantheon.outputs.BLUE_SITE_NAME }}
+          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
           BLUE_SITE_ENV: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ENV }}
-          GREEN_SITE_NAME: ${{ steps.configure-pantheon.outputs.GREEN_SITE_NAME }}
+          GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
           GREEN_SITE_ENV: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ENV }}
 
   deploy_blue_green:
@@ -89,4 +95,9 @@ jobs:
 
       - name: Debug output
         shell: bash
-        run: echo "We made it!"
+        run: ./.github/scripts/deploy.sh
+        env:
+          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
+          BLUE_SITE_ENV: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ENV }}
+          GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
+          GREEN_SITE_ENV: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ENV }}
