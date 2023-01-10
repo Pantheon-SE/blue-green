@@ -61,6 +61,6 @@ sudo sshfs \
 $BLUE_SITE_SFTP_PATH $MOUNT_PATH
 
 # Rclone
-rclone sync --transfers 25 $MOUNT_PATH $GREEN_SITE_ID
+rclone sync --progress --transfers 25 --retries 10 --retries-sleep 60s $MOUNT_PATH $GREEN_SITE_ID
 
 # No need to unmount, container will be reaped.
