@@ -120,8 +120,10 @@ runs:
       shell: bash
       run: ./.github/scripts/variables.sh
       env:
+        PANTHEON_BLUE_SITE_ID: ${{ inputs.PANTHEON_BLUE_SITE_ID }}
         PANTHEON_BLUE_SITE_ENV: ${{ inputs.PANTHEON_BLUE_SITE_ENV }}
         PANTHEON_GREEN_SITE_ENV: ${{ inputs.PANTHEON_GREEN_SITE_ENV }}
+        PANTHEON_GREEN_SITE_ID: ${{ inputs.PANTHEON_GREEN_SITE_ID }}
 
     - name: Install apt-get dependencies
       run: sudo apt-get install -y jq rclone sshfs
@@ -135,5 +137,5 @@ runs:
         ssh-keyscan -t rsa -p 2222 "appserver.dev.${GREEN_SITE_ID}.drush.in" >> ~/.ssh/known_hosts
         ssh-keyscan -t rsa -p 2222 "codeserver.dev.${GREEN_SITE_ID}.drush.in" >> ~/.ssh/known_hosts
       env:
-        BLUE_SITE_ID: ${{ steps.configure-pantheon-variables.outputs.BLUE_SITE_NAME }}
-        GREEN_SITE_ID: ${{ steps.configure-pantheon-variables.outputs.GREEN_SITE_NAME }}
+        BLUE_SITE_ID: ${{ steps.configure-pantheon-variables.outputs.BLUE_SITE_ID }}
+        GREEN_SITE_ID: ${{ steps.configure-pantheon-variables.outputs.GREEN_SITE_ID }}

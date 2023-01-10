@@ -15,11 +15,10 @@ cd $TMP_DIR_PATH
 # Prepare site information
 BLUE_SITE_ENV=$PANTHEON_BLUE_SITE_ENV
 GREEN_SITE_ENV=$PANTHEON_GREEN_SITE_ENV
-BLUE_SITE_ID=$PANTHEON_BLUE_SITE_ID
-GREEN_SITE_ID=$PANTHEON_GREEN_SITE_ID
 
 # Declare BLUE site variables.
-BLUE_SITE_INFO=$(terminus site:info ${BLUE_SITE_ID} --format json)
+BLUE_SITE_INFO=$(terminus site:info ${PANTHEON_BLUE_SITE_ID} --format json)
+echo $BLUE_SITE_INFO
 BLUE_SITE_NAME=$(echo $BLUE_SITE_INFO | jq -r '.name')
 BLUE_SITE_ID=$(echo $BLUE_SITE_INFO | jq -r '.id')
 BLUE_SITE_CONN_INFO=$(terminus connection:info ${BLUE_SITE_ID}.${BLUE_SITE_ENV} --fields sftp_username,sftp_host,git_url --format json)
@@ -29,7 +28,8 @@ BLUE_SITE_SFTP_HOST=$(echo $BLUE_SITE_CONN_INFO | jq -r '.sftp_host')
 BLUE_SITE_SFTP_PORT='2222'
 
 # Declare GREEN site variables.
-GREEN_SITE_INFO=$(terminus site:info ${GREEN_SITE_ID} --format json)
+GREEN_SITE_INFO=$(terminus site:info ${PANTHEON_GREEN_SITE_ID} --format json)
+echo $GREEN_SITE_INFO
 GREEN_SITE_NAME=$(echo $GREEN_SITE_INFO | jq -r '.name')
 GREEN_SITE_ID=$(echo $GREEN_SITE_INFO | jq -r '.id')
 GREEN_SITE_CONN_INFO=$(terminus connection:info ${GREEN_SITE_ID}.${GREEN_SITE_ENV} --fields sftp_username,sftp_host,git_url --format json)
