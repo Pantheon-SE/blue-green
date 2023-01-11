@@ -24,9 +24,9 @@ jobs:
         shell: bash
         run: ./.github/scripts/sync_code.sh
         env:
+          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
           BLUE_SITE_REPO: ${{ steps.configure-pantheon.outputs.BLUE_SITE_REPO }}
           GREEN_SITE_REPO: ${{ steps.configure-pantheon.outputs.GREEN_SITE_REPO }}
-          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
           GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
           BASE_BRANCH: ${{ steps.configure-pantheon.outputs.BASE_BRANCH }}
 

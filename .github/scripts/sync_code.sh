@@ -2,7 +2,9 @@
 
 # Required inputs
 # - BLUE_SITE_ID
+# - BLUE_SITE_REPO
 # - GREEN_SITE_ID
+# - GREEN_SITE_REPO
 # - BASE_BRANCH
 
 # Prepare git credentials
@@ -31,8 +33,7 @@ git config pull.rebase false
 
 # Check if remote branch exists
 _check_branch=$(git ls-remote --heads $BLUE_SITE_ID $BASE_BRANCH)
-[[ -n ${_check_branch} ]] && git pull $BLUE_SITE_ID $BASE_BRANCH --rebase
+[[ -n ${_check_branch} ]] && git pull $BLUE_SITE_ID $BASE_BRANCH --no-edit
 
 # Sync branch back to green
-git pull origin $BASE_BRANCH -X mine --rebase
 git push -u origin HEAD:refs/heads/$BASE_BRANCH

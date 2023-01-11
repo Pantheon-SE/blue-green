@@ -22,7 +22,7 @@ echo $BLUE_SITE_INFO
 BLUE_SITE_NAME=$(echo $BLUE_SITE_INFO | jq -r '.name')
 BLUE_SITE_ID=$(echo $BLUE_SITE_INFO | jq -r '.id')
 BLUE_SITE_CONN_INFO=$(terminus connection:info ${BLUE_SITE_ID}.${BLUE_SITE_ENV} --fields sftp_username,sftp_host,git_url --format json)
-BLUE_SITE_REPO=$(echo $BLUE_SITE_CONN_INFO | jq -r '.git_url')
+BLUE_SITE_REPO=$(terminus connection:info ${BLUE_SITE_ID}.dev --fields git_url --format list) # we always get the dev code repo.
 BLUE_SITE_SFTP_USER=$(echo $BLUE_SITE_CONN_INFO | jq -r '.sftp_username')
 BLUE_SITE_SFTP_HOST=$(echo $BLUE_SITE_CONN_INFO | jq -r '.sftp_host')
 BLUE_SITE_SFTP_PORT='2222'
@@ -32,11 +32,17 @@ GREEN_SITE_INFO=$(terminus site:info ${PANTHEON_GREEN_SITE_ID} --format json)
 echo $GREEN_SITE_INFO
 GREEN_SITE_NAME=$(echo $GREEN_SITE_INFO | jq -r '.name')
 GREEN_SITE_ID=$(echo $GREEN_SITE_INFO | jq -r '.id')
-GREEN_SITE_CONN_INFO=$(terminus connection:info ${GREEN_SITE_ID}.${GREEN_SITE_ENV} --fields sftp_username,sftp_host,git_url --format json)
-GREEN_SITE_REPO=$(echo $GREEN_SITE_CONN_INFO | jq -r '.git_url')
+GREEN_SITE_CONN_INFO=$(terminus connection:info ${GREEN_SITE_ID}.${GREEN_SITE_ENV} --fields sftp_username,sftp_host --format json)
 GREEN_SITE_SFTP_USER=$(echo $GREEN_SITE_CONN_INFO | jq -r '.sftp_username')
 GREEN_SITE_SFTP_HOST=$(echo $GREEN_SITE_CONN_INFO | jq -r '.sftp_host')
 GREEN_SITE_SFTP_PORT='2222'
+
+# Get repository based on target env.
+if [[ "$GREEN_SITE_ENV" == "live" ]] || [[ "$GREEN_SITE_ENV" == "test" ]]; then
+    GREEN_SITE_REPO=$(terminus connection:info ${GREEN_SITE_ID}.dev --fields git_url --format list)
+else
+    GREEN_SITE_REPO=$(terminus connection:info ${GREEN_SITE_ID}.${GREEN_SITE_ENV} --fields git_url --format list)
+fi
 
 # Establish base branch for Pantheon site syncing.
 BASE_BRANCH='master'
