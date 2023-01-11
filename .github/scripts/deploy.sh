@@ -1,7 +1,19 @@
 #!/bin/bash
 
+cat << EOF > test.txt
+
+GREEN_SITE_ENV=$GREEN_SITE_ENV
+GREEN_SITE_ID=$GREEN_SITE_ID
+BLUE_SITE_ENV=$BLUE_SITE_ENV
+BLUE_SITE_ID=$BLUE_SITE_ID
+
+EOF
+
+#debug
+cat test.txt
+
 # Run deployment based on target environment.
-if [[ "$GREEN_SITE_ENV" = "live" ]]; then
+if [[ "$GREEN_SITE_ENV" == "live" ]]; then
     # Test deploy first.
     terminus env:deploy $GREEN_SITE_ID.test --updatedb --note="Deploy trigger from GitHub Actions" -y
     terminus env:clear-cache $GREEN_SITE_ID.test
