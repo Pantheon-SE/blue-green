@@ -52,15 +52,24 @@ EOF
 echo 'user_allow_other' | sudo tee -a /etc/fuse.conf
 
 # Mount local directory for SOURCE remote
-sudo sshfs \
--o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
--o IdentityFile=$IDENTITY_FILE \
--o StrictHostKeyChecking=no \
--o ServerAliveInterval=15 \
--C \
-$BLUE_SITE_SFTP_PATH $MOUNT_PATH
+# sudo sshfs \
+# -o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
+# -o IdentityFile=$IDENTITY_FILE \
+# -o StrictHostKeyChecking=no \
+# -o ServerAliveInterval=15 \
+# -C \
+# $BLUE_SITE_SFTP_PATH $MOUNT_PATH
+
+sudo rclone mount $BLUE_SITE_ID $MOUNT_PATH -vvv --allow-other &
+sleep 10
+
+# Debug
+echo "LIST rclone \n"
+rclone lsf --max-depth 1 $BLUE_SITE_ID
+echo "LIST default \n"
+ls -la $MOUNT_PATH
 
 # Rclone
-rclone sync --transfers 25 --retries 10 --retries-sleep 60s $MOUNT_PATH $GREEN_SITE_ID
+sudo rclone sync --transfers 10 --retries 10 --retries-sleep 60s --progress $MOUNT_PATH $GREEN_SITE_ID
 
 # No need to unmount, container will be reaped.

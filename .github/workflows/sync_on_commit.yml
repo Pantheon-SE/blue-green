@@ -4,31 +4,31 @@ on:
     branches:
       - main
 jobs:
-  sync_code:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  # sync_code:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - id: configure-pantheon
-        name: Configure Pantheon
-        uses: ./.github/actions/configure-pantheon
-        with:
-          PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-          PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
-          PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
-          PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
-          PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
-          PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
+  #     - id: configure-pantheon
+  #       name: Configure Pantheon
+  #       uses: ./.github/actions/configure-pantheon
+  #       with:
+  #         PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+  #         PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
+  #         PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
+  #         PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
+  #         PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
+  #         PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
 
-      - name: Sync code from Blue to Green
-        shell: bash
-        run: ./.github/scripts/sync_code.sh
-        env:
-          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
-          BLUE_SITE_REPO: ${{ steps.configure-pantheon.outputs.BLUE_SITE_REPO }}
-          GREEN_SITE_REPO: ${{ steps.configure-pantheon.outputs.GREEN_SITE_REPO }}
-          GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
-          BASE_BRANCH: ${{ steps.configure-pantheon.outputs.BASE_BRANCH }}
+  #     - name: Sync code from Blue to Green
+  #       shell: bash
+  #       run: ./.github/scripts/sync_code.sh
+  #       env:
+  #         BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
+  #         BLUE_SITE_REPO: ${{ steps.configure-pantheon.outputs.BLUE_SITE_REPO }}
+  #         GREEN_SITE_REPO: ${{ steps.configure-pantheon.outputs.GREEN_SITE_REPO }}
+  #         GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
+  #         BASE_BRANCH: ${{ steps.configure-pantheon.outputs.BASE_BRANCH }}
 
   sync_files:
     runs-on: ubuntu-latest
@@ -59,56 +59,56 @@ jobs:
           GREEN_SITE_SFTP_USER: ${{ steps.configure-pantheon.outputs.GREEN_SITE_SFTP_USER }}
           GREEN_SITE_SFTP_PORT: ${{ steps.configure-pantheon.outputs.GREEN_SITE_SFTP_PORT }}
 
-  sync_database:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  # sync_database:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - id: configure-pantheon
-        name: Configure Pantheon
-        uses: ./.github/actions/configure-pantheon
-        with:
-          PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-          PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
-          PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
-          PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
-          PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
-          PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
+  #     - id: configure-pantheon
+  #       name: Configure Pantheon
+  #       uses: ./.github/actions/configure-pantheon
+  #       with:
+  #         PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+  #         PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
+  #         PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
+  #         PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
+  #         PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
+  #         PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
 
-      - name: Sync database from Blue to Green
-        shell: bash
-        run: ./.github/scripts/sync_database.sh
-        env:
-          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
-          BLUE_SITE_ENV: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ENV }}
-          GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
-          GREEN_SITE_ENV: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ENV }}
+  #     - name: Sync database from Blue to Green
+  #       shell: bash
+  #       run: ./.github/scripts/sync_database.sh
+  #       env:
+  #         BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
+  #         BLUE_SITE_ENV: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ENV }}
+  #         GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
+  #         GREEN_SITE_ENV: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ENV }}
 
-  deploy_blue_green:
-    runs-on: ubuntu-latest
-    needs:
-      - sync_code
-      - sync_files
-      - sync_database
-    steps:
-      - uses: actions/checkout@v3
+  # deploy_blue_green:
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - sync_code
+  #     - sync_files
+  #     - sync_database
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - id: configure-pantheon
-        name: Configure Pantheon
-        uses: ./.github/actions/configure-pantheon
-        with:
-          PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-          PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
-          PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
-          PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
-          PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
-          PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
+  #     - id: configure-pantheon
+  #       name: Configure Pantheon
+  #       uses: ./.github/actions/configure-pantheon
+  #       with:
+  #         PANTHEON_MACHINE_TOKEN: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+  #         PANTHEON_PRIVATE_SSH_KEY: ${{ secrets.PANTHEON_PRIVATE_SSH_KEY }}
+  #         PANTHEON_BLUE_SITE_ID: ${{ secrets.PANTHEON_BLUE_SITE_ID }}
+  #         PANTHEON_BLUE_SITE_ENV: ${{ secrets.PANTHEON_BLUE_SITE_ENV }}
+  #         PANTHEON_GREEN_SITE_ID: ${{ secrets.PANTHEON_GREEN_SITE_ID }}
+  #         PANTHEON_GREEN_SITE_ENV: ${{ secrets.PANTHEON_GREEN_SITE_ENV }}
 
-      - name: Deploy changes to target environments
-        shell: bash
-        run: ./.github/scripts/deploy.sh
-        env:
-          BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
-          BLUE_SITE_ENV: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ENV }}
-          GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
-          GREEN_SITE_ENV: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ENV }}
+  #     - name: Deploy changes to target environments
+  #       shell: bash
+  #       run: ./.github/scripts/deploy.sh
+  #       env:
+  #         BLUE_SITE_ID: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ID }}
+  #         BLUE_SITE_ENV: ${{ steps.configure-pantheon.outputs.BLUE_SITE_ENV }}
+  #         GREEN_SITE_ID: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ID }}
+  #         GREEN_SITE_ENV: ${{ steps.configure-pantheon.outputs.GREEN_SITE_ENV }}
