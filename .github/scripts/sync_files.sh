@@ -69,6 +69,6 @@ echo "LIST default \n"
 ls -la $MOUNT_PATH
 
 # Rclone
-sudo rclone sync --transfers 10 --retries 10 --retries-sleep 60s --progress $MOUNT_PATH $GREEN_SITE_ID
+sudo rclone sync --transfers 10 --retries 10 --retries-sleep 60s $MOUNT_PATH $GREEN_SITE_ID
 
 # No need to unmount, container will be reaped.
