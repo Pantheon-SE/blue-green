@@ -13,10 +13,6 @@ LNAME=$(terminus auth:whoami --field lastname)
 GIT_EMAIL=$(terminus auth:whoami --field email)
 GIT_NAME="$FNAME $LNAME"
 
-# Fix github actions variables missing periods.
-BLUE_REPO=$(echo "ssh://codeserver.dev.$BLUE_SITE_ID@codeserver.dev.$BLUE_SITE_ID.drush.in:2222/~/repository.git")
-GREEN_REPO=$(echo "ssh://codeserver.dev.$GREEN_SITE_ID@codeserver.dev.$GREEN_SITE_ID.drush.in:2222/~/repository.git")
-
 # Make sure env are in git mode
 terminus connection:set $BLUE_SITE_ID.dev git
 terminus connection:set $GREEN_SITE_ID.dev git
