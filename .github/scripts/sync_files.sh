@@ -52,20 +52,19 @@ EOF
 echo 'user_allow_other' | sudo tee -a /etc/fuse.conf
 
 # Mount local directory for SOURCE remote
-# sudo sshfs \
-# -o allow_other,reconnect,compression=yes,port=$BLUE_SITE_SFTP_PORT \
-# -o IdentityFile=$IDENTITY_FILE \
-# -o StrictHostKeyChecking=no \
-# -o ServerAliveInterval=15 \
-# -C \
-# $BLUE_SITE_SFTP_PATH $MOUNT_PATH
+sudo sshfs \
+-o auto_cache,no_readahead,allow_other,reconnect,compression=yes \
+-o port=$BLUE_SITE_SFTP_PORT \
+-o IdentityFile=$IDENTITY_FILE \
+-o StrictHostKeyChecking=no \
+-o ServerAliveInterval=15 \
+-C \
+$BLUE_SITE_SFTP_PATH $MOUNT_PATH
 
-sudo rclone mount $BLUE_SITE_ID $MOUNT_PATH -vvv --allow-other &
-sleep 10
+# sudo rclone mount $BLUE_SITE_ID $MOUNT_PATH -vvv --allow-other &
+# sleep 10
 
 # Debug
-echo "LIST rclone \n"
-rclone lsf --max-depth 1 $BLUE_SITE_ID
 echo "LIST default \n"
 ls -la $MOUNT_PATH
 
