@@ -2,7 +2,9 @@
 
 This GitHub Action workflow is used to synchronize code, database, and files between two Pantheon sites. This workflow can be implemented as part of a Blue/Green deployment workflow. The workflow is triggered when a push is made to the **`main`** branch, but can be configured using other triggers.
 
-The workflow consists of three jobs: sync_code, sync_files, and sync_database
+## Overview
+
+The workflow consists of three jobs: sync_code, sync_files, and sync_database.
 
 `sync_code`
 
@@ -27,11 +29,11 @@ All jobs start by running the **`configure-pantheon`** action (located in the **
 - `PANTHEON_GREEN_SITE_ID` - The UUID or machine name of the destination site.
 - `PANTHEON_GREEN_SITE_ENV` - The environment name for the target data (files and database).
 
-## Caveats
+### Caveats
 
 For sites with large file directories, if using the default runner in GitHub Actions, you may run into a timeout during the sync_files job. This just has to do with the limited memory resources available within the CI container. Once an initial sync has completed, subsequent sync jobs for files will go much quicker as only the difference between source and destination will be moved.
 
-## FAQ
+### FAQ
 
 **PANTHEON_SSH_KEY**
 This private key will need to be generated in a PEM format, as the standard OpenSSH format has some issues in the build containers. Pantheon does not support ed25519 keys yet, so you must use an RSA key in the meantime.
@@ -39,3 +41,15 @@ This private key will need to be generated in a PEM format, as the standard Open
 ```
 ssh-keygen -m PEM -t rsa -f ~/.ssh/id_rsa
 ```
+
+## How to configure Blue Green Deployment.
+
+If using [Advanced Global CDN](https://pantheon.io/product/advanced-global-cdn) for Blue/Green deployments on Pantheon, you can implement the following steps, either locally or using a Continuous Integration / Deployment (CI/CD) system:
+
+1. Start by syncing the environments using the steps above and/or scripts provided in this repository.
+1. Once the environments are synced, redirect traffic by enabling maintenance mode on the current production site:
+  1. AGCDN Blue/Green works by listening to the response from the backend.
+  1. When a 503 response is read (can be triggered using maintenance mode), AGCDN will retry the request with the alternative backend.
+1. Once the Blue site responds with 503, AGCDN will redirect the request to the Green site.
+1. After the redirect is in place, continue to update the Blue site with the latest code.
+1. Disable maintenance mode on Blue to send traffic back after the code updates are complete.
