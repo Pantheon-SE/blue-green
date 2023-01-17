@@ -53,3 +53,6 @@ If using [Advanced Global CDN](https://pantheon.io/product/advanced-global-cdn) 
 1. Once the Blue site responds with 503, AGCDN will redirect the request to the Green site.
 1. After the redirect is in place, continue to update the Blue site with the latest code.
 1. Disable maintenance mode on Blue to send traffic back after the code updates are complete.
+
+<img width="965" alt="image" src="https://user-images.githubusercontent.com/1759794/212984493-4079e813-7d9c-442f-af9a-ecde94fe6d59.png">
+
